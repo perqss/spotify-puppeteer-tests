@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "chromedriver": "^134.0.3",
+    "geckodriver": "^5.0.0",
+    "puppeteer": "^24.4.0"
+  },
+  "devDependencies": {
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0",
+    "selenium-webdriver": "^4.29.0"
+  }
+}

@@ -1,0 +1,26 @@
+{
+    "display_name": "Arkadiusz Biały",
+    "external_urls": {
+        "spotify": "https://open.spotify.com/user/11123855062"
+    },
+    "followers": {
+        "href": null,
+        "total": 6
+    },
+    "href": "https://api.spotify.com/v1/users/11123855062",
+    "id": "11123855062",
+    "images": [
+        {
+            "height": 300,
+            "url": "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.30497-1/453178253_471506465671661_2781666950760530985_n.png?stp=dst-png_s320x320&_nc_cat=1&ccb=1-7&_nc_sid=1b5ce2&_nc_ohc=a1K6_KaoqeEQ7kNvgG9I-Ac&_nc_oc=Adkz-E7sj4636uU-3Rk_lCsmBh1h4ttPAjkZHRiWuJVNrnvnpePlGkwpacL16n9o8X_tNB1UduR7eBELRzUtgWxP&_nc_zt=24&_nc_ht=scontent-cdg4-1.xx&edm=AP4hL3IEAAAA&oh=00_AYGHrDQUOdCrsawOR5QyMy12CyteD0QirLS0iwbSvMCt3g&oe=6810CBFA",
+            "width": 300
+        },
+        {
+            "height": 64,
+            "url": "https://scontent-cdg4-1.xx.fbcdn.net/v/t1.30497-1/453178253_471506465671661_2781666950760530985_n.png?stp=cp0_dst-png_s50x50&_nc_cat=1&ccb=1-7&_nc_sid=22ec41&_nc_ohc=a1K6_KaoqeEQ7kNvgG9I-Ac&_nc_oc=Adkz-E7sj4636uU-3Rk_lCsmBh1h4ttPAjkZHRiWuJVNrnvnpePlGkwpacL16n9o8X_tNB1UduR7eBELRzUtgWxP&_nc_zt=24&_nc_ht=scontent-cdg4-1.xx&edm=AP4hL3IEAAAA&oh=00_AYFSXzJfISxh6B42EBB9o76ppkFDckGFGxtMT3mPjmVZkQ&oe=6810CBFA",
+            "width": 64
+        }
+    ],
+    "type": "user",
+    "uri": "spotify:user:11123855062"
+}
