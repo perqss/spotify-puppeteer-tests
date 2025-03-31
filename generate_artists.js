@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 const artistTemplate = {
   external_urls: {
@@ -34,7 +34,7 @@ const artistTemplate = {
   uri: "spotify:artist:1RyvyyTE3xzB2ZywiAwp0i"
 };
 
-const N = 100000;
+const N = 10000;
 
 const items = Array.from({ length: N }, (_, i) => ({
   ...artistTemplate,
