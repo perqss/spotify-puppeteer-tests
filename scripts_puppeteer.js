@@ -46,22 +46,16 @@ async function testPerformanceTopArtistsRender(framework) {
   }
 
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: [
-      '--disable-blink-features=AutomationControlled',
-      '--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data',
-      '--profile-directory=Default',
       '--disable-web-security',
-      '--disable-features=IsolateOrigins',
-      '--disable-site-isolation-trials',
-      '--disable-extensions'
     ],
     defaultViewport: null,
-    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
   });
 
   const mockArtists = JSON.parse(fs.readFileSync('mock-top-artists.json', 'utf8'));
   const mockProfile = JSON.parse(fs.readFileSync('mock-user-profile.json', 'utf8'));
+  const mockBoolArray = Array(mockArtists.total).fill(true);
   const timestamp = new Date().toISOString().replace(/:/g, '-');
 
   for (let i = 0; i < 100; ++i) {
@@ -70,25 +64,52 @@ async function testPerformanceTopArtistsRender(framework) {
 
     page.on('request', (request) => {
       const url = request.url();
-      if (url.includes('/v1/me/top/artists')) {
+      const method = request.method();
+      if (url.includes('/v1/me/following/contains')) {
+        request.respond({
+          status: 200,
+          contentType: 'application/json',
+          headers: {"Access-Control-Allow-Origin": "*"},
+          body: JSON.stringify(mockBoolArray)
+      })
+      } else if (url.includes('/v1/me/top/artists')) {
           request.respond({
               status: 200,
               contentType: 'application/json',
               headers: {"Access-Control-Allow-Origin": "*"},
               body: JSON.stringify(mockArtists)
           })
-      } else if (url.includes('v1/me')) {
-        request.respond({
-          status: 200,
-          contentType: 'application/json',
-          headers: {"Access-Control-Allow-Origin": "*"},
-          body: JSON.stringify(mockProfile)
-        })
-      }
-      else {
+        } else if (url.includes('v1/me/following')) {
+          if (method === "DELETE") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          } else if (method === "PUT") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          }
+        } else if (url.includes('v1/me')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify(mockProfile)
+          })
+        } else if (url.includes('/api/token')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify({})
+          })
+        }
+        else {
           request.continue();
-      }
-    })
+        }
+      })
 
     await page.goto(frameworkUrl);
     await page.waitForSelector('.last-artist', { visible: true, timeout: 0 });
@@ -117,12 +138,12 @@ async function testPerformanceTopArtistsDelete(framework) {
     headless: true,
     args: [
       '--disable-blink-features=AutomationControlled',
-      '--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data',
-      '--profile-directory=Default',
-      '--disable-web-security',
-      '--disable-features=IsolateOrigins',
-      '--disable-site-isolation-trials',
-      '--disable-extensions'
+      // '--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data',
+      // '--profile-directory=Default',
+      // '--disable-web-security',
+      // '--disable-features=IsolateOrigins',
+      // '--disable-site-isolation-trials',
+      // '--disable-extensions'
     ],
     defaultViewport: null,
     executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
@@ -195,7 +216,7 @@ async function testPerformanceFollowedArtistsDelete(framework) {
   }
 
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: [
       '--disable-blink-features=AutomationControlled',
       '--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data',
@@ -262,8 +283,8 @@ async function testPerformanceFollowedArtistsDelete(framework) {
 
     await page.goto(frameworkUrl);
     await page.waitForSelector('.last-artist', { visible: true, timeout: 0 });
-    const previousFirstArtist = await page.$eval('.first-artist', el => el.textContent);
     const metricsBefore = await page.metrics();
+    const previousFirstArtist = await page.$eval('.first-artist', el => el.textContent);
     //await page.tracing.start({ path: 'trace.json', screenshots: true });
     //console.info(metricsBefore);
     await page.click('.follow-button');
@@ -278,7 +299,7 @@ async function testPerformanceFollowedArtistsDelete(framework) {
     //await page.tracing.stop();
     //console.info(metricsAfter);
     const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
-    fs.appendFile(`${framework}-unfollow-metrics-${mockArtists.artists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
+    fs.appendFile(`${framework}-memo-unfollow-metrics-${mockArtists.artists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
       (err) => {
         if (err) {
           console.log(err)
@@ -293,6 +314,6 @@ async function testPerformanceFollowedArtistsDelete(framework) {
 const args = process.argv;
 const framework = args[2];
 
-//await testPerformanceTopArtistsRender(framework);
+await testPerformanceTopArtistsRender(framework);
 //await testPerformanceTopArtistsDelete(framework);
-await testPerformanceFollowedArtistsDelete(framework);
+//await testPerformanceFollowedArtistsDelete(framework);

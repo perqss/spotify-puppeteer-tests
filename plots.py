@@ -6,30 +6,25 @@ def load_metrics(file_path):
     with open(file_path, 'r') as f:
         return [json.loads(line) for line in f if line.strip()]
 
-svelte_metrics = load_metrics('svelte-metrics-100000-artists-2025-03-30T23-37-12.631Z.txt')
-react_metrics = load_metrics('react-metrics-100000-artists-2025-03-31T00-22-36.707Z.txt')
+file_paths = {
+    "50000 artists": "react-no-memo-metrics-50000-artists-2025-05-03T09-25-17.709Z.txt",
+    "10000 artists": "react-no-memo-metrics-10000-artists-2025-05-03T11-06-26.035Z.txt",
+    "1000 artists": "react-no-memo-metrics-1000-artists-2025-05-03T11-28-35.566Z.txt",
+    "100 artists": "react-no-memo-metrics-100-artists-2025-05-04T03-10-44.690Z.txt"
+}
 
-svelte_df = pd.DataFrame(svelte_metrics).iloc[:, 1:]
-react_df = pd.DataFrame(react_metrics).iloc[:, 1:]
+average_durations = {}
 
-columns = ["TaskDuration"]
-#columns = list(svelte_df.columns)
-svelte_avg = svelte_df[columns].mean()
-react_avg = react_df[columns].mean()
+for label, path in file_paths.items():
+    metrics = load_metrics(path)
+    df = pd.DataFrame(metrics).iloc[:, 1:]
+    average_durations[label] = df["TaskDuration"].mean()
 
-x = range(len(columns))
-width = 0.35
-
-plt.figure(figsize=(14, 6))
-plt.bar(x, svelte_avg, width, label='Svelte')
-plt.bar([i + width for i in x], react_avg, width, label='React')
-
-plt.xticks([i + width / 2 for i in x], columns, rotation=45, ha='right')
-plt.ylabel('Average Value')
-plt.title('Performance Comparison: Svelte vs React')
-plt.legend()
+# Plotting
+plt.figure(figsize=(10, 6))
+plt.bar(average_durations.keys(), average_durations.values(), color='skyblue')
+plt.ylabel("Average TaskDuration (s)")
+plt.title("Average TaskDuration for React")
+plt.xticks(rotation=15)
 plt.tight_layout()
-
-# Save to PDF and show
-plt.savefig('comparison-all-metrics.pdf')
-plt.show()
+plt.savefig("react_taskduration_avg.png")

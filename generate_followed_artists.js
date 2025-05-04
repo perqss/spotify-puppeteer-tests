@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { randomUUID } from 'crypto';
 
 const artistTemplate = {
   external_urls: {
@@ -10,7 +11,6 @@ const artistTemplate = {
   },
   genres: ["rap"],
   href: "https://api.spotify.com/v1/artists/1RyvyyTE3xzB2ZywiAwp0i",
-  id: "1RyvyyTE3xzB2ZywiAwp0i",
   images: [
     {
       height: 640,
@@ -34,10 +34,11 @@ const artistTemplate = {
   uri: "spotify:artist:1RyvyyTE3xzB2ZywiAwp0i"
 };
 
-const N = 100;
+const N = 50000;
 
 const items = Array.from({ length: N }, (_, i) => ({
   ...artistTemplate,
+  id: randomUUID(),
   name: `${artistTemplate.name} ${i + 1}`
 }));
 
