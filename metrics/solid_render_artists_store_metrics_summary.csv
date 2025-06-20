@@ -1,0 +1,5 @@
+Framework,Components,TaskDuration,ScriptDuration,JSHeapUsedSize_MB,JSHeapTotalSize_MB
+Solid,100,0.109,0.013,2.093,6.893
+Solid,1000,0.264,0.015,6.0,13.678
+Solid,10000,2.033,0.041,37.997,104.887
+Solid,50000,11.183,0.153,183.493,256.93

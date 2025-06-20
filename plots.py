@@ -1,30 +1,55 @@
 import json
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 def load_metrics(file_path):
     with open(file_path, 'r') as f:
         return [json.loads(line) for line in f if line.strip()]
 
 file_paths = {
-    "50000 artists": "react-no-memo-metrics-50000-artists-2025-05-03T09-25-17.709Z.txt",
-    "10000 artists": "react-no-memo-metrics-10000-artists-2025-05-03T11-06-26.035Z.txt",
-    "1000 artists": "react-no-memo-metrics-1000-artists-2025-05-03T11-28-35.566Z.txt",
-    "100 artists": "react-no-memo-metrics-100-artists-2025-05-04T03-10-44.690Z.txt"
+    "3000 artists": "svelte-unfollow-no-memo-ALL-metrics-3000-artists-2025-05-19T22-47-43.227Z.txt",
+    "2000 artists": "svelte-unfollow-no-memo-ALL-metrics-2000-artists-2025-05-19T22-26-45.912Z.txt",
+    "1000 artists": "svelte-unfollow-no-memo-ALL-metrics-1000-artists-2025-05-20T10-23-21.227Z.txt",
+    "100 artists": "svelte-unfollow-no-memo-ALL-metrics-100-artists-2025-05-20T12-03-43.484Z.txt"
 }
 
-average_durations = {}
+task_durations = {}
+script_durations = {}
 
 for label, path in file_paths.items():
     metrics = load_metrics(path)
     df = pd.DataFrame(metrics).iloc[:, 1:]
-    average_durations[label] = df["TaskDuration"].mean()
+    task_durations[label] = df["TaskDuration"].mean()
+    script_durations[label] = df["ScriptDuration"].mean()
 
-# Plotting
-plt.figure(figsize=(10, 6))
-plt.bar(average_durations.keys(), average_durations.values(), color='skyblue')
-plt.ylabel("Average TaskDuration (s)")
-plt.title("Average TaskDuration for React")
-plt.xticks(rotation=15)
+# Dane do wykresu
+labels = list(task_durations.keys())
+x = np.arange(len(labels))  # pozycje na osi X
+width = 0.35  # szerokość słupków
+
+fig, ax = plt.subplots(figsize=(10, 6))
+bars1 = ax.bar(x - width/2, [task_durations[l] for l in labels], width, label='TaskDuration', color='skyblue')
+bars2 = ax.bar(x + width/2, [script_durations[l] for l in labels], width, label='ScriptDuration', color='lightgreen')
+
+# Oznaczenia
+ax.set_ylabel('Average Duration (s)')
+ax.set_title('Average TaskDuration and ScriptDuration for Svelte - Delete All Artists')
+ax.set_xticks(x)
+ax.set_xticklabels(labels, rotation=15)
+ax.legend()
 plt.tight_layout()
-plt.savefig("react_taskduration_avg.png")
+
+# Dodaj wartości na słupkach
+for bars in (bars1, bars2):
+    for bar in bars:
+        height = bar.get_height()
+        ax.text(
+            bar.get_x() + bar.get_width() / 2,
+            height,
+            f'{height:.3f}',
+            ha='center', va='bottom'
+        )
+
+# Zapisz wykres
+plt.savefig("svelte_task_vs_script_duration_delete_all_artists_avg.png")

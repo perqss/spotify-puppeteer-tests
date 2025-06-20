@@ -1,0 +1,2 @@
+{"Timestamp":301921.699309,"Documents":1,"Frames":1,"JSEventListeners":758,"Nodes":1573,"LayoutCount":103,"RecalcStyleCount":947,"LayoutDuration":0.15028,"RecalcStyleDuration":0.122343,"ScriptDuration":0.202173,"TaskDuration":1.900997,"JSHeapUsedSize":3377500,"JSHeapTotalSize":6578176}
+{"Timestamp":301934.669107,"Documents":3,"Frames":1,"JSEventListeners":1061,"Nodes":1599,"LayoutCount":104,"RecalcStyleCount":764,"LayoutDuration":0.610922,"RecalcStyleDuration":0.099804,"ScriptDuration":0.170838,"TaskDuration":4.219743,"JSHeapUsedSize":5005492,"JSHeapTotalSize":7102464}

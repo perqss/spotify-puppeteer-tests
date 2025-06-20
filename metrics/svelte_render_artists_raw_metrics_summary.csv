@@ -1,0 +1,5 @@
+Framework,Components,TaskDuration,ScriptDuration,JSHeapUsedSize_MB,JSHeapTotalSize_MB
+Svelte,100,0.116,0.022,2.167,4.806
+Svelte,1000,0.293,0.053,5.113,13.298
+Svelte,10000,1.786,0.238,31.975,57.167
+Svelte,50000,10.677,1.187,139.603,214.127

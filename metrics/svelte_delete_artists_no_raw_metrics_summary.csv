@@ -1,0 +1,5 @@
+Framework,Components,Performance,TaskDuration,ScriptDuration,JSHeapUsedSize_MB,JSHeapTotalSize_MB
+React,100,4.797,1.767,0.087,1.697,4.957
+React,500,21.989,10.008,0.913,2.209,5.198
+React,1000,51.407,30.393,3.14,2.766,6.448
+React,2000,160.967,121.964,10.768,3.365,8.198

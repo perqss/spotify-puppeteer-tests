@@ -5,15 +5,19 @@ import fs from 'fs';
 
 const svelteAppUrlTopArtists = 'http://127.0.0.1:4173/top-artists';
 const reactAppUrlTopArtists = 'http://127.0.0.1:4000/top-artists';
+const solidAppUrlTopArtists = 'http://127.0.0.1:3002/top-artists';
 
 const svelteAppUrlFollowedArtists = 'http://127.0.0.1:4173/followed-artists';
 const reactAppUrlFollowedArtists = 'http://127.0.0.1:4000/followed-artists';
+const solidAppUrlFollowedArtists = 'http://127.0.0.1:3002/followed-artists';
 
 const chooseTopArtistsUrl = (framework) => {
   if (framework === 'svelte') {
     return svelteAppUrlTopArtists;
   } else if (framework === 'react') {
     return reactAppUrlTopArtists;
+  } else if (framework === 'solid') {
+    return solidAppUrlTopArtists;
   } else {
     return '';
   }
@@ -24,6 +28,8 @@ const chooseFollowedArtistsUrl = (framework) => {
     return svelteAppUrlFollowedArtists;
   } else if (framework === 'react') {
     return reactAppUrlFollowedArtists;
+  } else if (framework === 'solid') {
+    return solidAppUrlFollowedArtists;
   } else {
     return '';
   }
@@ -32,9 +38,35 @@ const chooseFollowedArtistsUrl = (framework) => {
 const diffMetrics = (metricsBefore, metricsAfter) => {
   const diff = {};
   for (const key in metricsBefore) {
-      diff[key] = metricsAfter[key] - metricsBefore[key];
+      if (key !== 'JSHeapUsedSize' && key !== 'JSHeapTotalSize') {
+        diff[key] = metricsAfter[key] - metricsBefore[key];
+      } else {
+        diff[key] = metricsAfter[key];
+      }
   }
   return diff;
+};
+
+const checkIfEveryComponentVisible = async (page, selector, amount) => {
+    await page.waitForFunction(
+    (selector, expected) => {
+      const elements = document.querySelectorAll(selector);
+      if (elements.length !== expected) return false; 
+
+      return Array.from(elements).every(el => {
+        const style = window.getComputedStyle(el);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          el.offsetWidth  > 0 &&
+          el.offsetHeight > 0
+        );
+      });
+    },
+    { timeout: 0 },
+    selector,       
+    amount  
+  );
 };
 
 async function testPerformanceTopArtistsRender(framework) {
@@ -61,7 +93,6 @@ async function testPerformanceTopArtistsRender(framework) {
   for (let i = 0; i < 100; ++i) {
     const page = await browser.newPage();
     await page.setRequestInterception(true);
-
     page.on('request', (request) => {
       const url = request.url();
       const method = request.method();
@@ -112,9 +143,13 @@ async function testPerformanceTopArtistsRender(framework) {
       })
 
     await page.goto(frameworkUrl);
+    let start = performance.now();
     await page.waitForSelector('.last-artist', { visible: true, timeout: 0 });
+    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    let end = performance.now();
     const metrics = await page.metrics();
-    fs.appendFile(`${framework}-metrics-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metrics) + '\n', 
+    metrics.performance = (end - start) / 1000;
+    fs.appendFile(`${framework}-runes-extra-check-metrics-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metrics) + '\n', 
       (err) => {
         if (err) {
           console.log(err)
@@ -146,14 +181,13 @@ async function testPerformanceTopArtistsDelete(framework) {
       // '--disable-extensions'
     ],
     defaultViewport: null,
-    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
   });
 
   const mockArtists = JSON.parse(fs.readFileSync('mock-top-artists.json', 'utf8'));
   const mockProfile = JSON.parse(fs.readFileSync('mock-user-profile.json', 'utf8'));
   const timestamp = new Date().toISOString().replace(/:/g, '-');
 
-  for (let i = 0; i < 100; ++i) {
+  for (let i = 0; i < 1; ++i) {
     const page = await browser.newPage();
     await page.setRequestInterception(true);
 
@@ -195,7 +229,7 @@ async function testPerformanceTopArtistsDelete(framework) {
     const metricsAfter = await page.metrics();
     //console.info(metricsAfter);
     const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
-    fs.appendFile(`${framework}-no-memo-delete-metrics-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
+    fs.appendFile(`${framework}-delete-metrics-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
       (err) => {
         if (err) {
           console.log(err)
@@ -218,16 +252,10 @@ async function testPerformanceFollowedArtistsDelete(framework) {
   const browser = await puppeteer.launch({
     headless: true,
     args: [
-      '--disable-blink-features=AutomationControlled',
-      '--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data',
-      '--profile-directory=Default',
       '--disable-web-security',
-      '--disable-features=IsolateOrigins',
-      '--disable-site-isolation-trials',
-      '--disable-extensions'
+      '--js-flags=--expose-gc',
     ],
     defaultViewport: null,
-    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
   });
 
   const mockArtists = JSON.parse(fs.readFileSync('mock-followed-artists.json', 'utf8'));
@@ -235,7 +263,7 @@ async function testPerformanceFollowedArtistsDelete(framework) {
   const mockBoolArray = Array(mockArtists.artists.total).fill(true);
   const timestamp = new Date().toISOString().replace(/:/g, '-');
 
-  for (let i = 0; i < 100; ++i) {
+  for (let i = 0; i < 10; ++i) {
     const page = await browser.newPage();
     await page.setRequestInterception(true);
 
@@ -275,6 +303,13 @@ async function testPerformanceFollowedArtistsDelete(framework) {
           headers: {"Access-Control-Allow-Origin": "*"},
           body: JSON.stringify(mockProfile)
         })
+      } else if (url.includes('/api/token')) {
+        request.respond({
+          status: 200,
+          contentType: 'application/json',
+          headers: {"Access-Control-Allow-Origin": "*"},
+          body: JSON.stringify({})
+        })
       }
       else {
           request.continue();
@@ -282,38 +317,40 @@ async function testPerformanceFollowedArtistsDelete(framework) {
     })
 
     await page.goto(frameworkUrl);
-    await page.waitForSelector('.last-artist', { visible: true, timeout: 0 });
-    const metricsBefore = await page.metrics();
-    const previousFirstArtist = await page.$eval('.first-artist', el => el.textContent);
-    //await page.tracing.start({ path: 'trace.json', screenshots: true });
-    //console.info(metricsBefore);
-    await page.click('.follow-button');
+    let total = mockArtists.artists.total;
+    let metricsBefore = null;
+    let start, end;
 
-    await page.waitForFunction((prev) => {
-      const el = document.querySelector('.first-artist');
-      return el && el.textContent !== prev;
-    }, { timeout: 0 }, previousFirstArtist);
+    while (total-- > 0) {
+      await checkIfEveryComponentVisible(page, '.artist-card', total + 1);
+      if (total === mockArtists.artists.total - 1) {
+        start = performance.now();
+        metricsBefore = await page.metrics();
+      }
+      await page.click('.follow-button');
+    }
 
-    await page.waitForSelector('.first-artist', { visible: true, timeout: 0 });
+    await checkIfEveryComponentVisible(page, '.artist-card', 0);
+    await page.evaluate(() => gc && gc());
+    end = performance.now();
     const metricsAfter = await page.metrics();
-    //await page.tracing.stop();
-    //console.info(metricsAfter);
     const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
-    fs.appendFile(`${framework}-memo-unfollow-metrics-${mockArtists.artists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
+    metricsDiff.performance = (end - start) / 1000;
+    fs.appendFile(`${framework}-unfollow-state-raw-filter-performance-ALL-metrics-${mockArtists.artists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
       (err) => {
         if (err) {
           console.log(err)
         }
       }
     );
-    await page.close();
+   await page.close();
   }
-  await browser.close();
+ await browser.close();
 }
 
 const args = process.argv;
 const framework = args[2];
 
-await testPerformanceTopArtistsRender(framework);
+//await testPerformanceTopArtistsRender(framework);
 //await testPerformanceTopArtistsDelete(framework);
-//await testPerformanceFollowedArtistsDelete(framework);
+await testPerformanceFollowedArtistsDelete(framework);

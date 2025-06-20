@@ -1,0 +1,1 @@
+{"Timestamp":354442.675291,"Documents":2,"Frames":1,"JSEventListeners":156,"Nodes":300098,"LayoutCount":10,"RecalcStyleCount":19,"LayoutDuration":2.108776,"RecalcStyleDuration":0.313639,"ScriptDuration":14.666705,"TaskDuration":18.395494,"JSHeapUsedSize":86214740,"JSHeapTotalSize":159285248}
