@@ -3,10 +3,10 @@ import pandas as pd
 import os
 
 file_paths = {
-    "2000": "svelte-unfollow-no-raw-splice-performance-ALL-metrics-2000-artists-2025-06-20T21-40-32.252Z.txt",
-    "1000": "svelte-unfollow-no-raw-splice-performance-ALL-metrics-1000-artists-2025-06-20T22-14-31.839Z.txt",
-    "500": "svelte-unfollow-no-raw-splice-performance-ALL-metrics-500-artists-2025-06-20T22-26-13.427Z.txt",
-    "100": "svelte-unfollow-no-raw-splice-performance-ALL-metrics-100-artists-2025-06-20T22-30-25.448Z.txt"
+    "2000": "svelte-no-runes-assignment-raw-modify-metrics-2000-artists-2025-06-25T12-40-11.578Z.txt",
+    "1000": "svelte-no-runes-assignment-raw-modify-metrics-1000-artists-2025-06-25T13-26-16.267Z.txt",
+    "500": "svelte-no-runes-assignment-raw-modify-metrics-500-artists-2025-06-25T13-41-27.984Z.txt",
+    "100": "svelte-no-runes-assignment-raw-modify-metrics-100-artists-2025-06-25T13-46-20.129Z.txt"
 }
 
 results = []
@@ -20,7 +20,7 @@ for label, path in file_paths.items():
     df = pd.DataFrame(metrics).iloc[:, 1:]
 
     results.append({
-        "Framework": "React",
+        "Framework": "Svelte",
         "Components": int(label),
         "Performance": df["performance"].mean(),
         "TaskDuration": df["TaskDuration"].mean(),
@@ -36,7 +36,7 @@ df_results = df_results.round(3)
 output_dir = "metrics"
 os.makedirs(output_dir, exist_ok=True)
 
-output_path = os.path.join(output_dir, "svelte_delete_artists_no_raw_metrics_summary.csv")
+output_path = os.path.join(output_dir, "svelte_modify_artists_no_runes_assignment_summary.csv")
 df_results.to_csv(output_path, index=False)
 
 print(f"Tabela zapisana do: {output_path}")

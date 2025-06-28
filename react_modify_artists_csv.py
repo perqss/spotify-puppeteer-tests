@@ -3,10 +3,10 @@ import pandas as pd
 import os
 
 file_paths = {
-    "2000": "svelte-unfollow-no-raw-splice-performance-ALL-metrics-2000-artists-2025-06-20T21-40-32.252Z.txt",
-    "1000": "svelte-unfollow-no-raw-splice-performance-ALL-metrics-1000-artists-2025-06-20T22-14-31.839Z.txt",
-    "500": "svelte-unfollow-no-raw-splice-performance-ALL-metrics-500-artists-2025-06-20T22-26-13.427Z.txt",
-    "100": "svelte-unfollow-no-raw-splice-performance-ALL-metrics-100-artists-2025-06-20T22-30-25.448Z.txt"
+    "2000": "react-modify-metrics-2000-artists-2025-06-24T21-29-00.902Z.txt",
+    "1000": "react-modify-metrics-1000-artists-2025-06-24T21-57-21.974Z.txt",
+    "500": "react-modify-metrics-500-artists-2025-06-24T22-07-01.410Z.txt",
+    "100": "react-modify-metrics-100-artists-2025-06-24T22-11-57.293Z.txt"
 }
 
 results = []
@@ -36,7 +36,7 @@ df_results = df_results.round(3)
 output_dir = "metrics"
 os.makedirs(output_dir, exist_ok=True)
 
-output_path = os.path.join(output_dir, "svelte_delete_artists_no_raw_metrics_summary.csv")
+output_path = os.path.join(output_dir, "react_modify_artists_metrics_summary.csv")
 df_results.to_csv(output_path, index=False)
 
 print(f"Tabela zapisana do: {output_path}")

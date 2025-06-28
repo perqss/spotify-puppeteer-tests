@@ -336,7 +336,7 @@ async function testPerformanceFollowedArtistsDelete(framework) {
     const metricsAfter = await page.metrics();
     const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
     metricsDiff.performance = (end - start) / 1000;
-    fs.appendFile(`${framework}-unfollow-state-raw-filter-performance-ALL-metrics-${mockArtists.artists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
+    fs.appendFile(`${framework}-unfollow-solid-for-performance-ALL-metrics-${mockArtists.artists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
       (err) => {
         if (err) {
           console.log(err)
@@ -348,9 +348,114 @@ async function testPerformanceFollowedArtistsDelete(framework) {
  await browser.close();
 }
 
+async function testPerformanceTopArtistsModify(framework) {
+  let frameworkUrl = chooseTopArtistsUrl(framework);
+
+  if (!frameworkUrl) {
+    console.error('You need to provide "svelte", "react" or "solid" as an argument for the script');
+    return;
+  }
+
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      '--disable-web-security',
+    ],
+    defaultViewport: null,
+  });
+
+  const mockArtists = JSON.parse(fs.readFileSync('mock-top-artists.json', 'utf8'));
+  const mockProfile = JSON.parse(fs.readFileSync('mock-user-profile.json', 'utf8'));
+  const mockBoolArray = Array(mockArtists.total).fill(false);
+  const timestamp = new Date().toISOString().replace(/:/g, '-');
+
+  for (let i = 0; i < 10; ++i) {
+    const page = await browser.newPage();
+    await page.setRequestInterception(true);
+    page.on('request', (request) => {
+      const url = request.url();
+      const method = request.method();
+      if (url.includes('/v1/me/following/contains')) {
+        request.respond({
+          status: 200,
+          contentType: 'application/json',
+          headers: {"Access-Control-Allow-Origin": "*"},
+          body: JSON.stringify(mockBoolArray)
+      })
+      } else if (url.includes('/v1/me/top/artists')) {
+          request.respond({
+              status: 200,
+              contentType: 'application/json',
+              headers: {"Access-Control-Allow-Origin": "*"},
+              body: JSON.stringify(mockArtists)
+          })
+        } else if (url.includes('v1/me/following')) {
+          if (method === "DELETE") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          } else if (method === "PUT") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          }
+        } else if (url.includes('v1/me')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify(mockProfile)
+          })
+        } else if (url.includes('/api/token')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify({})
+          })
+        }
+        else {
+          request.continue();
+        }
+      })
+
+    await page.goto(frameworkUrl);
+
+    let metricsBefore = null;
+    let start, end;
+
+    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    start = performance.now();
+    metricsBefore = await page.metrics();
+    let counter = 0;
+
+    while (counter++ < mockArtists.total) {
+      await page.click('.follow-button.not-followed');
+      await checkIfEveryComponentVisible(page, '.followed', counter);
+    }
+
+    end = performance.now();
+    const metricsAfter = await page.metrics();
+    const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
+    metricsDiff.performance = (end - start) / 1000;
+    fs.appendFile(`${framework}-signals-for-equals-false-modify-metrics-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
+      (err) => {
+        if (err) {
+          console.log(err)
+        }
+      }
+    );
+    await page.close();
+  }
+  await browser.close();
+}
+
 const args = process.argv;
 const framework = args[2];
 
 //await testPerformanceTopArtistsRender(framework);
 //await testPerformanceTopArtistsDelete(framework);
-await testPerformanceFollowedArtistsDelete(framework);
+//await testPerformanceFollowedArtistsDelete(framework);
+await testPerformanceTopArtistsModify(framework);
