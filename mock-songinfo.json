@@ -1,0 +1,51 @@
+{
+  "album": {
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+        },
+        "href": null,
+        "name": "Future",
+        "type": "artist",
+        "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+      }
+    ],
+    "name": "EVOL",
+    "release_date": "2016-04-13",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+        "width": 640
+      },
+      {
+        "height": 300,
+        "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+        "width": 300
+      },
+      {
+        "height": 64,
+        "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+        "width": 64
+      }
+    ]
+  },
+  "external_urls": {
+    "spotify": "https://open.spotify.com/track/0Due109sq8Ld9G5xkWRubf"
+  },
+  "artists": [
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+      },
+      "href": null,
+      "name": "Future",
+      "type": "artist",
+      "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+    }
+  ],
+  "duration_ms": 220026,
+  "name": "Maybach",
+  "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf"
+}

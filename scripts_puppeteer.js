@@ -11,6 +11,14 @@ const svelteAppUrlFollowedArtists = 'http://127.0.0.1:4173/followed-artists';
 const reactAppUrlFollowedArtists = 'http://127.0.0.1:4000/followed-artists';
 const solidAppUrlFollowedArtists = 'http://127.0.0.1:3002/followed-artists';
 
+const svelteAppUrlTopSongs = 'http://127.0.0.1:4173/top-songs';
+const reactAppUrlTopSongs = 'http://127.0.01:4000/top-songs';
+const solidAppUrlTopSongs = 'http://127.0.0.1:3002/top-songs';
+
+const svelteAppUrlRecentlyPlayed = 'http://127.0.0.1:4173/recently-played';
+const reactAppUrlRecentlyPlayed = 'http://127.0.0.1:4000/recently-played';
+const solidAppUrlRecentlyPlayed = 'http://127.0.0.1:3002/recently-played';
+
 const chooseTopArtistsUrl = (framework) => {
   if (framework === 'svelte') {
     return svelteAppUrlTopArtists;
@@ -30,6 +38,30 @@ const chooseFollowedArtistsUrl = (framework) => {
     return reactAppUrlFollowedArtists;
   } else if (framework === 'solid') {
     return solidAppUrlFollowedArtists;
+  } else {
+    return '';
+  }
+};
+
+const chooseTopSongsUrl = (framework) => {
+  if (framework === 'svelte') {
+    return svelteAppUrlTopSongs;
+  } else if (framework === 'react') {
+    return reactAppUrlTopSongs;
+  } else if (framework === 'solid') {
+    return solidAppUrlTopSongs;
+  } else {
+    return '';
+  }
+};
+
+const chooseRecentlyPlayedUrl = (framework) => {
+  if (framework === 'svelte') {
+    return svelteAppUrlRecentlyPlayed;
+  } else if (framework === 'react') {
+    return reactAppUrlRecentlyPlayed;
+  } else if (framework === 'solid') {
+    return solidAppUrlRecentlyPlayed;
   } else {
     return '';
   }
@@ -66,6 +98,24 @@ const checkIfEveryComponentVisible = async (page, selector, amount) => {
     { timeout: 0 },
     selector,       
     amount  
+  );
+};
+
+const checkIfIframeVisible = async (page) => {
+  const iframe = await page.waitForSelector('iframe[src*="open.spotify.com/embed"]', { visible: true, timeout: 0 });
+  await page.waitForFunction(el => el.contentDocument?.readyState === 'complete', {}, iframe);
+  await page.waitForFunction(
+    el => {
+      const r = el.getBoundingClientRect();
+      return (
+        r.width > 0 &&
+        r.height > 0 &&
+        r.bottom > 0 &&
+        r.top < window.innerHeight
+      );
+    },
+    { timeout: 0 },
+    iframe                   
   );
 };
 
@@ -452,10 +502,284 @@ async function testPerformanceTopArtistsModify(framework) {
   await browser.close();
 }
 
+async function testWholeApplication(framework) {
+  let frameworkUrl = chooseTopArtistsUrl(framework);
+
+  if (!frameworkUrl) {
+    console.error('You need to provide "svelte", "react" or "solid" as an argument for the script');
+    return;
+  }
+
+  const browser = await puppeteer.launch({
+    headless: false,
+    args: [
+      '--disable-web-security',
+    ],
+    defaultViewport: null,
+  });
+
+  const mockArtists = JSON.parse(fs.readFileSync('mock-top-artists.json', 'utf8'));
+  const mockProfile = JSON.parse(fs.readFileSync('mock-user-profile.json', 'utf8'));
+  const mockArtistProfile = JSON.parse(fs.readFileSync('mock-artist-profile.json', 'utf8'));
+  const mockBoolArray = Array(mockArtists.total).fill(false);
+  const mockSongInfo = JSON.parse(fs.readFileSync('mock-songinfo.json', 'utf8'));
+  const mockSongs = JSON.parse(fs.readFileSync('mock-top-songs.json', 'utf8'));
+  const timestamp = new Date().toISOString().replace(/:/g, '-');
+
+  for (let i = 0; i < 1; ++i) {
+    const page = await browser.newPage();
+    await page.setRequestInterception(true);
+    page.on('request', (request) => {
+      const url = request.url();
+      const method = request.method();
+      if (url.includes('/v1/me/following/contains')) {
+        request.respond({
+          status: 200,
+          contentType: 'application/json',
+          headers: {"Access-Control-Allow-Origin": "*"},
+          body: JSON.stringify(mockBoolArray)
+      })
+      } else if (url.includes('/v1/me/top/artists')) {
+          request.respond({
+              status: 200,
+              contentType: 'application/json',
+              headers: {"Access-Control-Allow-Origin": "*"},
+              body: JSON.stringify(mockArtists)
+          })
+        } else if (url.includes('v1/me/following')) {
+          if (method === "DELETE") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          } else if (method === "PUT") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          }
+        } else if (url.includes('/api/token')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify({})
+          })
+        } else if (url.includes('/artists/')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify(mockArtistProfile)
+          })
+        } else if (url.includes('/v1/me/tracks/contains')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify(mockBoolArray)
+        })
+        } else if (url.includes('/v1/me/top/tracks')) {
+          request.respond({
+              status: 200,
+              contentType: 'application/json',
+              headers: {"Access-Control-Allow-Origin": "*"},
+              body: JSON.stringify(mockSongs)
+          })
+        } else if (url.includes('/v1/me/tracks')) {
+          if (method === "DELETE") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          } else if (method === "PUT") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          }
+        } else if (url.includes('/v1/tracks/')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify(mockSongInfo)
+          })
+        } else if (url.includes('/v1/me')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify(mockProfile)
+          })
+        }
+        else {
+          request.continue();
+        }
+      })
+
+    // top artist section
+    await page.goto(frameworkUrl);
+    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    await page.click('.artist-album-card');
+    await page.waitForSelector('.artist-profile', { visible: true, timeout: 0 });
+    await page.click('.back-button');
+    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    await page.click('.last-6-months');
+    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    await page.click('.last-4-weeks');
+    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    await page.click('.play-button');
+    await checkIfIframeVisible(page);
+    await page.click('.close-iframe');
+    await page.waitForSelector('iframe[src*="open.spotify.com/embed"]', { hidden: true, timeout: 0 });
+    //await page.goto(chooseTopSongsUrl(framework));
+    // top songs section
+    await page.click('.top-songs');
+    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    await page.click('.song-item');
+    await page.waitForSelector('.song-display', { visible: true, timeout: 0 });
+    await page.click('.back-button');
+    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    await page.click('.last-6-months');
+    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    await page.click('.all-time');
+    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    await page.click('.play-button');
+    await checkIfIframeVisible(page);
+    await page.click('.close-iframe');
+    await page.waitForSelector('iframe[src*="open.spotify.com/embed"]', { hidden: true, timeout: 0 });
+    // start = performance.now();
+    // metricsBefore = await page.metrics();
+    // let counter = 0;
+
+    // while (counter++ < mockArtists.total) {
+    //   await page.click('.follow-button.not-followed');
+    //   await checkIfEveryComponentVisible(page, '.followed', counter);
+    // }
+
+    // end = performance.now();
+    // const metricsAfter = await page.metrics();
+    // const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
+    // metricsDiff.performance = (end - start) / 1000;
+    // fs.appendFile(`${framework}-signals-for-equals-false-modify-metrics-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
+    //   (err) => {
+    //     if (err) {
+    //       console.log(err)
+    //     }
+    //   }
+    // );
+    //await page.close();
+  }
+  //await browser.close();
+}
+
+async function testPerformanceTopSongsRender(framework) {
+  let frameworkUrl = chooseTopSongsUrl(framework);
+
+  if (!frameworkUrl) {
+    console.error('You need to provide "svelte", "react" or "solid" as an argument for the script');
+    return;
+  }
+
+  const browser = await puppeteer.launch({
+    protocolTimeout: 0,
+    headless: false,
+    args: [
+      '--disable-web-security',
+    ],
+    defaultViewport: null,
+  });
+
+  const mockSongs = JSON.parse(fs.readFileSync('mock-top-songs.json', 'utf8'));
+  const mockProfile = JSON.parse(fs.readFileSync('mock-user-profile.json', 'utf8'));
+  const mockBoolArray = Array(mockSongs.total).fill(false);
+  const timestamp = new Date().toISOString().replace(/:/g, '-');
+
+  for (let i = 0; i < 2; ++i) {
+    const page = await browser.newPage();
+    await page.setRequestInterception(true);
+    page.on('request', (request) => {
+      const url = request.url();
+      const method = request.method();
+      if (url.includes('/v1/me/tracks/contains')) {
+        request.respond({
+          status: 200,
+          contentType: 'application/json',
+          headers: {"Access-Control-Allow-Origin": "*"},
+          body: JSON.stringify(mockBoolArray)
+      })
+      } else if (url.includes('/v1/me/top/tracks')) {
+          request.respond({
+              status: 200,
+              contentType: 'application/json',
+              headers: {"Access-Control-Allow-Origin": "*"},
+              body: JSON.stringify(mockSongs)
+          })
+        } else if (url.includes('v1/me/tracks')) {
+          if (method === "DELETE") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          } else if (method === "PUT") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          }
+        } else if (url.includes('v1/me')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify(mockProfile)
+          })
+        } else if (url.includes('/api/token')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify({})
+          })
+        }
+        else {
+          request.continue();
+        }
+      })
+
+    let start = performance.now();
+    await page.goto(frameworkUrl, { timeout: 0 });
+
+    //let metricsBefore = null;
+    
+    //await page.waitForSelector('.last-song', { visible: true, timeout: 0 });
+    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    let end = performance.now();
+    console.log((end - start) / 1000);
+
+    // end = performance.now();
+    // const metricsAfter = await page.metrics();
+    // const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
+    // metricsDiff.performance = (end - start) / 1000;
+    // fs.appendFile(`${framework}-signals-for-equals-false-modify-metrics-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
+    //   (err) => {
+    //     if (err) {
+    //       console.log(err)
+    //     }
+    //   }
+    // );
+    await page.close();
+  }
+  await browser.close();
+}
+
 const args = process.argv;
 const framework = args[2];
 
 //await testPerformanceTopArtistsRender(framework);
 //await testPerformanceTopArtistsDelete(framework);
 //await testPerformanceFollowedArtistsDelete(framework);
-await testPerformanceTopArtistsModify(framework);
+//await testPerformanceTopArtistsModify(framework);
+await testWholeApplication(framework);
+//await testPerformanceTopSongsRender(framework);
