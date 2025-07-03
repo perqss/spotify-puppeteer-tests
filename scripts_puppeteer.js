@@ -620,35 +620,36 @@ async function testWholeApplication(framework) {
 
     // top artist section
     await page.goto(frameworkUrl);
-    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
-    await page.click('.artist-album-card');
-    await page.waitForSelector('.artist-profile', { visible: true, timeout: 0 });
-    await page.click('.back-button');
-    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
-    await page.click('.last-6-months');
-    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
-    await page.click('.last-4-weeks');
-    await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
-    await page.click('.play-button');
-    await checkIfIframeVisible(page);
-    await page.click('.close-iframe');
-    await page.waitForSelector('iframe[src*="open.spotify.com/embed"]', { hidden: true, timeout: 0 });
+    // await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    // await page.click('.artist-album-card');
+    // await page.waitForSelector('.artist-profile', { visible: true, timeout: 0 });
+    // await page.click('.back-button');
+    // await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    // await page.click('.last-6-months');
+    // await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    // await page.click('.last-4-weeks');
+    // await checkIfEveryComponentVisible(page, '.artist-card', mockArtists.total);
+    // await page.click('.play-button');
+    // await checkIfIframeVisible(page);
+    // await page.click('.close-iframe');
+    // await page.waitForSelector('iframe[src*="open.spotify.com/embed"]', { hidden: true, timeout: 0 });
     //await page.goto(chooseTopSongsUrl(framework));
     // top songs section
-    await page.click('.top-songs');
-    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
-    await page.click('.song-item');
-    await page.waitForSelector('.song-display', { visible: true, timeout: 0 });
-    await page.click('.back-button');
-    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
-    await page.click('.last-6-months');
-    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
-    await page.click('.all-time');
-    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
-    await page.click('.play-button');
-    await checkIfIframeVisible(page);
-    await page.click('.close-iframe');
-    await page.waitForSelector('iframe[src*="open.spotify.com/embed"]', { hidden: true, timeout: 0 });
+    // await page.click('.top-songs');
+    // await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    // await page.click('.song-item');
+    // await page.waitForSelector('.song-display', { visible: true, timeout: 0 });
+    // await page.click('.back-button');
+    // await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    // await page.click('.last-6-months');
+    // await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    // await page.click('.all-time');
+    // await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    // await page.click('.play-button');
+    // await checkIfIframeVisible(page);
+    // await page.click('.close-iframe');
+    // await page.waitForSelector('iframe[src*="open.spotify.com/embed"]', { hidden: true, timeout: 0 });
+    //await page.goto('http://127.0.0.1:4000/top-albums');
     // start = performance.now();
     // metricsBefore = await page.metrics();
     // let counter = 0;
@@ -684,7 +685,7 @@ async function testPerformanceTopSongsRender(framework) {
 
   const browser = await puppeteer.launch({
     protocolTimeout: 0,
-    headless: false,
+    headless: true,
     args: [
       '--disable-web-security',
     ],
@@ -696,7 +697,7 @@ async function testPerformanceTopSongsRender(framework) {
   const mockBoolArray = Array(mockSongs.total).fill(false);
   const timestamp = new Date().toISOString().replace(/:/g, '-');
 
-  for (let i = 0; i < 2; ++i) {
+  for (let i = 0; i < 15; ++i) {
     const page = await browser.newPage();
     await page.setRequestInterception(true);
     page.on('request', (request) => {
@@ -748,27 +749,129 @@ async function testPerformanceTopSongsRender(framework) {
         }
       })
 
-    let start = performance.now();
-    await page.goto(frameworkUrl, { timeout: 0 });
-
-    //let metricsBefore = null;
     
-    //await page.waitForSelector('.last-song', { visible: true, timeout: 0 });
+    await page.goto(frameworkUrl, { timeout: 0 });
+    let start = performance.now();
+    
+    await page.waitForSelector('.last-song', { visible: true, timeout: 0 });
     await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
     let end = performance.now();
-    console.log((end - start) / 1000);
+    const metrics = await page.metrics();
+    metrics.performance = (end - start) / 1000;
 
-    // end = performance.now();
-    // const metricsAfter = await page.metrics();
-    // const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
-    // metricsDiff.performance = (end - start) / 1000;
-    // fs.appendFile(`${framework}-signals-for-equals-false-modify-metrics-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
-    //   (err) => {
-    //     if (err) {
-    //       console.log(err)
-    //     }
-    //   }
-    // );
+    fs.appendFile(`${framework}-render-path-createsignal-metrics-${mockSongs.total}-songs-${timestamp}.txt`, JSON.stringify(metrics) + '\n', 
+      (err) => {
+        if (err) {
+          console.log(err)
+        }
+      }
+    );
+    await page.close();
+  }
+  await browser.close();
+}
+
+async function testPerformanceTopSongsModify(framework) {
+  let frameworkUrl = chooseTopSongsUrl(framework);
+
+  if (!frameworkUrl) {
+    console.error('You need to provide "svelte", "react" or "solid" as an argument for the script');
+    return;
+  }
+
+  const browser = await puppeteer.launch({
+    protocolTimeout: 0,
+    headless: true,
+    args: [
+      '--disable-web-security',
+    ],
+    defaultViewport: null,
+  });
+
+  const mockSongs = JSON.parse(fs.readFileSync('mock-top-songs.json', 'utf8'));
+  const mockProfile = JSON.parse(fs.readFileSync('mock-user-profile.json', 'utf8'));
+  const mockBoolArray = Array(mockSongs.total).fill(false);
+  const timestamp = new Date().toISOString().replace(/:/g, '-');
+
+  for (let i = 0; i < 10; ++i) {
+    const page = await browser.newPage();
+    await page.setRequestInterception(true);
+    page.on('request', (request) => {
+      const url = request.url();
+      const method = request.method();
+      if (url.includes('/v1/me/tracks/contains')) {
+        request.respond({
+          status: 200,
+          contentType: 'application/json',
+          headers: {"Access-Control-Allow-Origin": "*"},
+          body: JSON.stringify(mockBoolArray)
+      })
+      } else if (url.includes('/v1/me/top/tracks')) {
+          request.respond({
+              status: 200,
+              contentType: 'application/json',
+              headers: {"Access-Control-Allow-Origin": "*"},
+              body: JSON.stringify(mockSongs)
+          })
+        } else if (url.includes('v1/me/tracks')) {
+          if (method === "DELETE") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          } else if (method === "PUT") {
+            request.respond({
+              status: 204,
+              headers: { "Access-Control-Allow-Origin": "*" }
+            });
+          }
+        } else if (url.includes('v1/me')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify(mockProfile)
+          })
+        } else if (url.includes('/api/token')) {
+          request.respond({
+            status: 200,
+            contentType: 'application/json',
+            headers: {"Access-Control-Allow-Origin": "*"},
+            body: JSON.stringify({})
+          })
+        }
+        else {
+          request.continue();
+        }
+      })
+
+    await page.goto(frameworkUrl, {timeout: 0});
+
+    let metricsBefore = null;
+    let start, end;
+
+    await checkIfEveryComponentVisible(page, '.song-card', mockSongs.total);
+    start = performance.now();
+    metricsBefore = await page.metrics();
+    let counter = 0;
+
+    while (counter++ < mockSongs.total) {
+      await page.click('.save-button.not-saved');
+      await checkIfEveryComponentVisible(page, '.saved', counter);
+    }
+
+    end = performance.now();
+    const metricsAfter = await page.metrics();
+    const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
+    metricsDiff.performance = (end - start) / 1000;
+
+    fs.appendFile(`${framework}-store-modify-metrics-${mockSongs.total}-songs-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
+      (err) => {
+        if (err) {
+          console.log(err)
+        }
+      }
+    );
     await page.close();
   }
   await browser.close();
@@ -781,5 +884,6 @@ const framework = args[2];
 //await testPerformanceTopArtistsDelete(framework);
 //await testPerformanceFollowedArtistsDelete(framework);
 //await testPerformanceTopArtistsModify(framework);
-await testWholeApplication(framework);
+//await testWholeApplication(framework);
 //await testPerformanceTopSongsRender(framework);
+await testPerformanceTopSongsModify(framework);

@@ -1,9 +1,8 @@
 import fs from 'fs';
 import { randomUUID } from 'crypto';
 
-const songTemplate = {
+const albumTemplate = {
   album: {
-    href: "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
     album_type: "album",
     artists: [{
         external_urls: {
@@ -32,7 +31,7 @@ const songTemplate = {
         width: 64
       }
     ],
-    name: "EVOL",
+    name: "EVOL"
   },
   artists: [
     {
@@ -56,11 +55,6 @@ const N = 100;
 const items = Array.from({ length: N }, (_, i) => ({
   ...songTemplate,
   id: randomUUID(),
-  album : {
-    ...songTemplate.album,
-    name: `${songTemplate.album.name} ${i + 1}`,
-    id: randomUUID()
-  },
   name: `${songTemplate.name} ${i + 1}`
 }));
 

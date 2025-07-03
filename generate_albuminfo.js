@@ -51,7 +51,7 @@ const songTemplate = {
   name: "Maybach",
 };
 
-const N = 100;
+const N = 50;
 
 const items = Array.from({ length: N }, (_, i) => ({
   ...songTemplate,
@@ -64,7 +64,7 @@ const items = Array.from({ length: N }, (_, i) => ({
   name: `${songTemplate.name} ${i + 1}`
 }));
 
-const mockData = {
+const mockDataSong = {
   items,
   total: N,
   limit: 50,
@@ -74,4 +74,42 @@ const mockData = {
   previous: null
 };
 
-fs.writeFileSync('mock-top-songs.json', JSON.stringify(mockData, null, 2));
+const mockDataAlbum = {
+    artists: [{
+        external_urls: {
+            spotify: "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+        },
+        href: null,
+        name: "Future",
+        type: "artist",
+        uri: "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+    }],
+    name: "EVOL",
+    release_date: "2016-04-13",
+    images: [
+        {
+            height: 640,
+            url: "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+            width: 640
+        },
+        {
+            height: 300,
+            url: "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+            width: 300
+        },
+        {
+            height: 64,
+            url: "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+            width: 64
+        }
+    ],
+  external_urls: {
+    spotify: "https://open.spotify.com/album/3jJKDKdlwRS584zUlHV2Ly"
+  },
+  href: "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly?locale=pl-PL%2Cpl%3Bq%3D0.9%2Cen-PL%3Bq%3D0.8%2Cen%3Bq%3D0.7%2Cen-US%3Bq%3D0.6",
+  tracks: mockDataSong
+};
+
+
+
+fs.writeFileSync('mock-songinfo.json', JSON.stringify(mockData, null, 2));
