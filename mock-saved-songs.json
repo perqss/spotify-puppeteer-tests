@@ -1,0 +1,560 @@
+{
+  "items": [
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 1",
+          "id": "dc260bc9-4ea0-4189-9d6e-26deebbe132f"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 1",
+        "id": "64949683-cb5c-46ff-8eb2-38ce747223c1"
+      }
+    },
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 2",
+          "id": "8a1b569a-e1d3-4bcf-8271-df7f40d21c2e"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 2",
+        "id": "2e1c57d5-41fb-4251-8ce5-b5f6535deab9"
+      }
+    },
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 3",
+          "id": "3abf903b-9e1a-49f5-a83a-9ce1cdc8ddd3"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 3",
+        "id": "d1432938-f4d1-4856-813f-fceeb486d1d4"
+      }
+    },
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 4",
+          "id": "9a8b721b-2fd1-4771-8547-d73417620690"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 4",
+        "id": "4fbb858f-901f-465a-86a0-d2ae76b6da87"
+      }
+    },
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 5",
+          "id": "a3cea9e2-a9ec-45f7-8620-d3b39c8e5eaa"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 5",
+        "id": "1b60a08d-54c6-4448-bdde-8a9a6eb1ce15"
+      }
+    },
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 6",
+          "id": "fc1ddcf6-e420-4c91-ab0d-609af8102131"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 6",
+        "id": "8389a89a-4922-4635-82e8-303b6dbb9ad5"
+      }
+    },
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 7",
+          "id": "48588631-9afd-40ce-966b-450e19427c9c"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 7",
+        "id": "d5f0a3ea-0d8f-4ffe-88db-cc1e2852fc62"
+      }
+    },
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 8",
+          "id": "398d1f3b-b03d-4e2d-bce8-478ad199bd51"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 8",
+        "id": "06bbe732-5db9-46ec-92b2-eb32b9ff2d4f"
+      }
+    },
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 9",
+          "id": "84d447b8-b826-436a-b50e-aa1e79a92a95"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 9",
+        "id": "9d6fe916-a4db-4ce3-9a44-7a52e3c10b3c"
+      }
+    },
+    {
+      "track": {
+        "album": {
+          "href": "https://api.spotify.com/v1/albums/3jJKDKdlwRS584zUlHV2Ly",
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+              },
+              "href": null,
+              "id": "16e3118c-8124-49b5-96e3-7ef0bfc53547",
+              "name": "Future",
+              "type": "artist",
+              "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+            }
+          ],
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000b273626745b3aa04899001a924ad",
+              "width": 64
+            }
+          ],
+          "name": "EVOL 10",
+          "id": "394adc77-dc71-45e4-8c97-9973a586bab1"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Due109sq8Ld9G5xkWRubf"
+            },
+            "href": null,
+            "id": "9a10b36a-d665-4508-8fa5-72e6516c583f",
+            "name": "Future",
+            "type": "artist",
+            "uri": "spotify:artist:0Due109sq8Ld9G5xkWRubf"
+          }
+        ],
+        "href": "https://api.spotify.com/v1/tracks/0Due109sq8Ld9G5xkWRubf",
+        "duration_ms": 220026,
+        "name": "Maybach 10",
+        "id": "a7f3073d-20ac-4d13-ae83-51ac78b4dd65"
+      }
+    }
+  ],
+  "total": 10,
+  "limit": 50,
+  "offset": 0,
+  "href": "https://api.spotify.com/v1/me/top/artists?offset=0&limit=50&time_range=long_term&locale=pl-PL,pl;q%3D0.9,en-PL;q%3D0.8,en;q%3D0.7,en-US;q%3D0.6",
+  "next": null,
+  "previous": null
+}

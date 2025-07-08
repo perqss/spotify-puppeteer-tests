@@ -34,7 +34,7 @@ const artistTemplate = {
   uri: "spotify:artist:1RyvyyTE3xzB2ZywiAwp0i"
 };
 
-const N = 2000;
+const N = 100;
 
 const items = Array.from({ length: N }, (_, i) => ({
   ...artistTemplate,
