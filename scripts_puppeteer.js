@@ -1031,7 +1031,7 @@ async function testArtistProfile(framework) {
   }
 
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: [
       '--disable-web-security',
     ],
@@ -1110,12 +1110,12 @@ async function testArtistProfile(framework) {
     let start = performance.now();
     const metricsBefore = await page.metrics();
     await page.click('.artist-album-card');
-    await page.waitForSelector('.artist-profile-display', { visible: true, timeout: 0 });
+    await page.waitForSelector('[class*="artist-profile-display"]', { visible: true, timeout: 0 });
     let end = performance.now();
     const metricsAfter = await page.metrics();
     const metricsDiff = diffMetrics(metricsBefore, metricsAfter);
     metricsDiff.performance = (end - start) / 1000;
-    fs.appendFile(`${framework}-artist-profile-state-raw-${mockArtists.total}-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
+    fs.appendFile(`${framework}-xd-artist-profile-state-raw-${mockArtists.total}-${timestamp}.txt`, JSON.stringify(metricsDiff) + '\n', 
       (err) => {
         if (err) {
           console.log(err)
@@ -1153,8 +1153,8 @@ async function testFirstPage(framework) {
       () => performance.getEntriesByType('navigation')[0].domInteractive
     );
 
-    await page.waitForSelector('.logo', { visible: true, timeout: 0});
-    await page.waitForSelector('.login-button', { visible: true, timeout: 0 });
+    await page.waitForSelector('[class*="logo"]', { visible: true, timeout: 0});
+    await page.waitForSelector('[class*="login-button"]', { visible: true, timeout: 0 });
 
     const elapsed = await page.evaluate(t0 => performance.now() - t0, start);
     let metrics = await page.metrics();
