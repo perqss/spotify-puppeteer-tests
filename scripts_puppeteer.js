@@ -1,7 +1,5 @@
 import puppeteer from 'puppeteer';
 import fs from 'fs';
-// const puppeteer = require('puppeteer');
-// const fs = require('fs');
 
 const svelteAppUrl = 'http://127.0.0.1:4173';
 const reactAppUrl = 'http://127.0.0.1:4000';
@@ -133,24 +131,6 @@ const checkIfEveryComponentVisible = async (page, selector, amount) => {
   );
 };
 
-const checkIfIframeVisible = async (page) => {
-  const iframe = await page.waitForSelector('iframe[src*="open.spotify.com/embed"]', { visible: true, timeout: 0 });
-  await page.waitForFunction(el => el.contentDocument?.readyState === 'complete', {}, iframe);
-  await page.waitForFunction(
-    el => {
-      const r = el.getBoundingClientRect();
-      return (
-        r.width > 0 &&
-        r.height > 0 &&
-        r.bottom > 0 &&
-        r.top < window.innerHeight
-      );
-    },
-    { timeout: 0 },
-    iframe                   
-  );
-};
-
 async function testPerformanceTopArtistsRender(framework) {
   let frameworkUrl = chooseTopArtistsUrl(framework);
 
@@ -231,7 +211,7 @@ async function testPerformanceTopArtistsRender(framework) {
     let end = performance.now();
     const metrics = await page.metrics();
     metrics.performance = (end - start) / 1000;
-    fs.appendFile(`${framework}-runes-extra-check-metrics-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metrics) + '\n', 
+    fs.appendFile(`${framework}-render-${mockArtists.total}-artists-${timestamp}.txt`, JSON.stringify(metrics) + '\n', 
       (err) => {
         if (err) {
           console.log(err)
@@ -1032,9 +1012,6 @@ async function testArtistProfile(framework) {
 
   const browser = await puppeteer.launch({
     headless: false,
-    args: [
-      '--disable-web-security',
-    ],
     defaultViewport: null,
   });
 
@@ -1175,7 +1152,7 @@ async function testFirstPage(framework) {
 const args = process.argv;
 const framework = args[2];
 
-//await testPerformanceTopArtistsRender(framework);
+await testPerformanceTopArtistsRender(framework);
 //await testPerformanceTopArtistsDelete(framework);
 //await testPerformanceFollowedArtistsDelete(framework);
 //await testPerformanceTopArtistsModify(framework);
@@ -1183,5 +1160,5 @@ const framework = args[2];
 //await testPerformanceTopSongsRender(framework);
 //await testPerformanceTopSongsModify(framework);
 //await testPerformanceSavedSongsDelete(framework);
-await testArtistProfile(framework);
+//await testArtistProfile(framework);
 //await testFirstPage(framework);

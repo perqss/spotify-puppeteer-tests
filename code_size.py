@@ -31,6 +31,6 @@ for framework, path in PATHS.items():
                         no_whitespace_line = whitespace_pattern.sub('', line)
                         total_chars_no_whitespace += len(no_whitespace_line)
 
-    print(f"Łączna liczba linii kodu (bez linii pustych) w {framework}: {total_lines}")
-    print(f"Łączna liczba znaków (bez białych znaków) w {framework}: {total_chars_no_whitespace}")
+    print(f"Łączna liczba linii kodu w {framework}: {total_lines}")
+    print(f"Łączna liczba znaków w {framework}: {total_chars_no_whitespace}")
 
