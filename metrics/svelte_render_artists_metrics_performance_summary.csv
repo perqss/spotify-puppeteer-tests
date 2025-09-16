@@ -2,4 +2,4 @@ Framework,Components,TaskDuration,Performance,ScriptDuration,JSHeapUsedSize_MB,J
 Svelte,100,0.109,0.052,0.023,2.411,7.636
 Svelte,1000,0.271,0.195,0.058,7.367,14.631
 Svelte,10000,1.853,1.73,0.33,59.8,111.097
-Svelte,50000,11.381,10.924,1.581,255.142,330.532
+Svelte,50000,11.236,11.09,1.606,260.762,335.173
